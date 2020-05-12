@@ -1,6 +1,8 @@
 package rlbotexample;
 
 import rlbot.manager.BotManager;
+import rlbot.manager.HivemindManager;
+import rlbot.pyinterop.HiveSocketServer;
 import rlbotexample.util.PortReader;
 
 import javax.swing.*;
@@ -14,27 +16,27 @@ import java.util.stream.Collectors;
 /**
  * See JavaAgent.py for usage instructions.
  *
- * Look inside SampleBot.java for the actual bot logic!
+ * Look inside MyHivemind.java for the actual bot logic!
  */
-public class JavaExample {
+public class JavaHivemindExample {
 
-    private static final int DEFAULT_PORT = 17357;
+    private static final int DEFAULT_PORT = 20321;
 
     public static void main(String[] args) {
 
-        BotManager botManager = new BotManager();
+        HivemindManager hivemindManager = new HivemindManager(MyHivemind::new);
         int port = PortReader.readPortFromArgs(args).orElseGet(() -> {
             System.out.println("Could not read port from args, using default!");
             return DEFAULT_PORT;
         });
 
-        SamplePythonInterface pythonInterface = new SamplePythonInterface(port, botManager);
-        new Thread(pythonInterface::start).start();
+        HiveSocketServer server = new HiveSocketServer(port, hivemindManager);
+        new Thread(server::start).start();
 
-        displayWindow(botManager, port);
+        displayWindow(hivemindManager, port);
     }
     
-    private static void displayWindow(BotManager botManager, int port) {
+    private static void displayWindow(HivemindManager hivemindManager, int port) {
         JFrame frame = new JFrame("Java Bot");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -52,7 +54,7 @@ public class JavaExample {
         panel.add(dataPanel, BorderLayout.CENTER);
         frame.add(panel);
 
-        URL url = JavaExample.class.getClassLoader().getResource("icon.png");
+        URL url = JavaHivemindExample.class.getClassLoader().getResource("icon.png");
         Image image = Toolkit.getDefaultToolkit().createImage(url);
         panel.add(new JLabel(new ImageIcon(image)), BorderLayout.WEST);
         frame.setIconImage(image);
@@ -61,7 +63,7 @@ public class JavaExample {
         frame.setVisible(true);
 
         ActionListener myListener = e -> {
-            Set<Integer> runningBotIndices = botManager.getRunningBotIndices();
+            Set<Integer> runningBotIndices = hivemindManager.getRunningBotIndices();
 
             String botsStr;
             if (runningBotIndices.isEmpty()) {
