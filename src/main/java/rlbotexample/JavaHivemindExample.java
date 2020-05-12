@@ -1,6 +1,5 @@
 package rlbotexample;
 
-import rlbot.manager.BotManager;
 import rlbot.manager.HivemindManager;
 import rlbot.pyinterop.HiveSocketServer;
 import rlbotexample.util.PortReader;
