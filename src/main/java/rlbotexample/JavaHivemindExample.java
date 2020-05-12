@@ -37,7 +37,7 @@ public class JavaHivemindExample {
     }
     
     private static void displayWindow(HivemindManager hivemindManager, int port) {
-        JFrame frame = new JFrame("Java Bot");
+        JFrame frame = new JFrame("Java Hivemind Bot");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel panel = new JPanel();
@@ -48,9 +48,11 @@ public class JavaHivemindExample {
         dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.Y_AXIS));
         dataPanel.setBorder(new EmptyBorder(0, 10, 0, 0));
         dataPanel.add(new JLabel("Listening on port " + port), BorderLayout.CENTER);
-        dataPanel.add(new JLabel("I'm the thing controlling the Java bot, keep me open :)"), BorderLayout.CENTER);
-        JLabel botsRunning = new JLabel("Bots running: ");
-        dataPanel.add(botsRunning, BorderLayout.CENTER);
+        dataPanel.add(new JLabel("I'm the thing controlling the Java hivemind bot, keep me open :)"), BorderLayout.CENTER);
+        JLabel blueHive = new JLabel("Blue hive indices: ");
+        JLabel orangeHive = new JLabel("Orange hive indices: ");
+        dataPanel.add(blueHive, BorderLayout.CENTER);
+        dataPanel.add(orangeHive, BorderLayout.CENTER);
         panel.add(dataPanel, BorderLayout.CENTER);
         frame.add(panel);
 
@@ -63,18 +65,30 @@ public class JavaHivemindExample {
         frame.setVisible(true);
 
         ActionListener myListener = e -> {
-            Set<Integer> runningBotIndices = hivemindManager.getRunningBotIndices();
+            Set<Integer> blueRunningIndices = hivemindManager.getRunningBotIndicesForBlue();
+            Set<Integer> orangeRunningIndices = hivemindManager.getRunningBotIndicesForOrange();
 
-            String botsStr;
-            if (runningBotIndices.isEmpty()) {
-                botsStr = "None";
+            String blueBotStr;
+            if (blueRunningIndices.isEmpty()) {
+                blueBotStr = "None";
             } else {
-                botsStr = runningBotIndices.stream()
+                blueBotStr = blueRunningIndices.stream()
                         .sorted()
                         .map(i -> "#" + i)
                         .collect(Collectors.joining(", "));
             }
-            botsRunning.setText("Bots indices running: " + botsStr);
+            blueHive.setText("Blue hive indices: " + blueBotStr);
+
+            String orangeBotStr;
+            if (orangeRunningIndices.isEmpty()) {
+                orangeBotStr = "None";
+            } else {
+                orangeBotStr = orangeRunningIndices.stream()
+                        .sorted()
+                        .map(i -> "#" + i)
+                        .collect(Collectors.joining(", "));
+            }
+            orangeHive.setText("Orange hive indices: " + orangeBotStr);
         };
 
         new Timer(1000, myListener).start();

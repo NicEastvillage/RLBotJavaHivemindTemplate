@@ -1,5 +1,5 @@
-# RLBotJavaExample
-An example bot implemented in Java
+# RLBotJavaHivemindTemplate
+An example hivemind bot implemented in Java
 
 ## Video Guide
 
@@ -18,8 +18,9 @@ open and it's OK if it says something like "75%".
 1. Double click on run-gui.bat
 1. Click the 'Run' button
 
-- Bot behavior is controlled by `src/main/java/rlbotexample/SampleBot.java`
-- Bot appearance is controlled by `src/main/python/javaExampleAppearance.cfg`
+- Bot behavior is controlled by `src/main/java/rlbotexample/MyHivemind.java`
+- Bot appearance is controlled by `src/main/python/javaHivemind.cfg`
 
 See the [wiki](https://github.com/RLBot/RLBotJavaExample/wiki)
-for tips to improve your programming experience.
+for tips to improve your programming experience,
+and the [hivemind wiki](https://github.com/ViliamVadocz/Hivemind/wiki) for info about hiveminds.
