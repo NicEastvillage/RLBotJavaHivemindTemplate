@@ -1,5 +1,7 @@
 package rlbotexample;
 
+import rlbot.Hivemind;
+import rlbot.manager.HivemindCreator;
 import rlbot.manager.HivemindManager;
 import rlbot.pyinterop.HiveSocketServer;
 import rlbotexample.util.PortReader;
@@ -9,6 +11,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.net.URL;
+import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -23,7 +26,17 @@ public class JavaHivemindExample {
 
     public static void main(String[] args) {
 
-        HivemindManager hivemindManager = new HivemindManager(MyHivemind::new);
+        HivemindManager hivemindManager = new HivemindManager(new HivemindCreator() {
+            @Override
+            public Hivemind createHivemind(int team, String hiveKey) {
+                return new MyHivemind(team, hiveKey);
+            }
+
+            @Override
+            public String assignHiveKey(int index, int team, String botName) {
+                return new Random().nextBoolean() ? "Default" : "NotDefault";
+            }
+        });
         int port = PortReader.readPortFromArgs(args).orElseGet(() -> {
             System.out.println("Could not read port from args, using default!");
             return DEFAULT_PORT;

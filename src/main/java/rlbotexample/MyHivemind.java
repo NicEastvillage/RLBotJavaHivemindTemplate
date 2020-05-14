@@ -13,14 +13,18 @@ import java.util.stream.Collectors;
 public class MyHivemind implements Hivemind {
 
     public final int team;
+    private final String hiveKey;
     public Map<Integer, Drone> drones = new HashMap<>();
 
-    public MyHivemind(int team) {
+    public MyHivemind(int team, String hiveKey) {
         this.team = team;
+        this.hiveKey = hiveKey;
     }
 
     @Override
     public Map<Integer, ControllerState> processInput(Set<Integer> droneIndexes, GameTickPacket request) {
+
+        System.out.println(hiveKey + ": " + droneIndexes);
 
         // Check if the drones indexes changed
         if (!drones.keySet().equals(droneIndexes)) {
