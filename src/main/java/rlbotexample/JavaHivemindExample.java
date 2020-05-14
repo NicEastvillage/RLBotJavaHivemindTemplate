@@ -64,8 +64,8 @@ public class JavaHivemindExample {
         frame.setVisible(true);
 
         ActionListener myListener = e -> {
-            Set<Integer> blueRunningIndices = hivemindManager.getRunningBotIndicesForBlue();
-            Set<Integer> orangeRunningIndices = hivemindManager.getRunningBotIndicesForOrange();
+            Set<Integer> blueRunningIndices = hivemindManager.getRunningBotIndices(0, "Default");
+            Set<Integer> orangeRunningIndices = hivemindManager.getRunningBotIndices(1, "Default");
 
             String blueBotStr;
             if (blueRunningIndices.isEmpty()) {
